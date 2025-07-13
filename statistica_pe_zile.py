@@ -1,0 +1,24 @@
+import csv
+from collections import Counter
+
+input_file = 'condamnari.csv'
+output_file = 'statistica_zilnica.csv'
+
+# Citire date
+dates = []
+with open(input_file, 'r', encoding='utf-8') as f:
+    reader = csv.DictReader(f)
+    for row in reader:
+        dates.append(row['data'])
+
+# Numărare condamnări pe zile
+stats = Counter(dates)
+
+# Scriere rezultat în CSV
+with open(output_file, 'w', newline='', encoding='utf-8') as f:
+    writer = csv.writer(f)
+    writer.writerow(['data', 'numar_total_condamnati'])
+    for date, count in sorted(stats.items()):
+        writer.writerow([date, count])
+
+print("Statistica a fost salvată în", output_file)
